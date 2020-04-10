@@ -24,11 +24,11 @@ If you wish to use TensorProjection Layer in your model, it may be better for yo
 
 We assuem that a TensorProjection Layer is installed after a 2D convolutional layer.
 
-The output of a 2D convolutional layer is a tensor with the shape of [n,p1,p2,p3] where n is the number of observations or the minibatch size.
+The output of a 2D convolutional layer is n 3D tensors with the shape of [n,p1,p2,p3] where n is the number of observations or the minibatch size.
 
-A TensorProjection Layer transforms a tensor with the shape of [n,p1,p2,p3] into one with the shape of [n,q1,q2,q3] where qk is less than or equal to pk (k=1,2,3).
+A TensorProjection Layer transforms the input with the shape of [n,p1,p2,p3] into one with the shape of [n,q1,q2,q3] where qk is less than or equal to pk (k=1,2,3).
 
-This transformation is done by employing tensor mode product.  The TensorProjection Layer multiplies (trancated) orthogonal matrices with the size of [qk,pk] (k=1,2,3) to each 3D tensor (i=1,..,n).
+This transformation is done by employing tensor mode product to each 3D tensor (i=1,2,...,n). The TensorProjection Layer multiplies (trancated) orthogonal matrices with the size of [qk,pk] (k=1,2,3) to each 3D tensor (i=1,..,n).
 
 ## Our Related Method
 
