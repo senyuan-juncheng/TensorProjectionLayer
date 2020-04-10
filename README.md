@@ -19,3 +19,12 @@ The program needs to compute 'sqrtm' (square root of a positive semi definite ma
 
 According to our preliminary study, pooling layers are likely to perform better if they are put in the first convolutional layer.
 If you wish to use TensorProjection Layer in your model, it may be better for you to put it after the last convolutional layer.
+
+# What does a TensorProjection Layer do?
+
+We assuem that a TensorProjection Layer is installed after a 2D convolutional layer.
+
+The output of a 2D convolutional layer is a tensor with the shape of [n,p1,p2,p3] where n is the number of observations or the minibatch size.
+
+A TensorProjection Layer transforms a tensor with the shape of [n,p1,p2,p3] into one with the shape of [n,q1,q2,q3] where qi is less than or equal to pi (i=1,2,3).
+
