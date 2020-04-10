@@ -26,9 +26,13 @@ We assuem that a TensorProjection Layer is installed after a 2D convolutional la
 
 The output of a 2D convolutional layer is n 3D tensors with the shape of [n,p1,p2,p3] where n is the number of observations or the minibatch size.
 
-A TensorProjection Layer transforms the input with the shape of [n,p1,p2,p3] into one with the shape of [n,q1,q2,q3] where qk is less than or equal to pk (k=1,2,3).
+A TensorProjection Layer transforms the input with the shape of [n,p1,p2,p3] into data with the shape of [n,q1,q2,q3] where qk is less than or equal to pk (k=1,2,3).
 
 This transformation is done by employing tensor mode product to each 3D tensor (i=1,2,...,n). The TensorProjection Layer multiplies (trancated) orthogonal matrices with the size of [qk,pk] (k=1,2,3) to each 3D tensor (i=1,..,n).
+
+## Paper
+
+[https://arxiv.org/abs/2004.04454](https://arxiv.org/abs/2004.04454)
 
 ## Our Related Method
 
