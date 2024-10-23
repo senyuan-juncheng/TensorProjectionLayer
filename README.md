@@ -1,39 +1,32 @@
-This README file is under construction.
-
 # TensorProjection Layer 
 
 Thank you for visiting my page :)
 
-TensorProjection Layer is a dimensionality reduction layer proposed by Toshinari Morimoto and Su-Yun Huang.
-We implement our proposed method as a custom hidden layer of TensorFlow.
+The TensorProjection Layer is a dimensionality reduction layer proposed by Toshinari Morimoto and Su-Yun Huang. 
+We have implemented our method as a custom hidden layer in TensorFlow.
 
-You can put a TensorProjection Layer in a 2D Convolutional Neural Network defined in TensorFlow Keras.
-If you would like to run the program, I think that it will be convenient for you to install Python, TensorFlow and Jupyter Notebook via Anaconda. And please run the code (.ipynb file) using Jupyter Notebook.
+You can integrate a TensorProjection Layer into a Deep Neural Network defined using TensorFlow Keras. 
+To get started, we recommend installing Python, TensorFlow, and Jupyter Notebook.
+You can then run the provided code (.ipynb file) using Jupyter Notebook.
 
-## Which version of TensorFlow should I use?
+## TensorFlow Version Requirements
 
-Plase do not use a very old version of TensorFlow.
-The program needs to compute 'sqrtm' (square root of a positive semi definite matrix), which is not found in an old version of TensorFlow.
+Please avoid using very old versions of TensorFlow. The TensorProjection Layer requires the computation of the square root of a positive semi-definite matrix (`sqrtm`), which is not available in older versions of TensorFlow. Ensure that your version supports this function.
 
-## Some Advice
+## Practical Advice
 
-According to our preliminary study, pooling layers are likely to perform better if they are put in the first convolutional layer.
-If you wish to use TensorProjection Layer in your model, it may be better for you to put it after the last convolutional layer.
+If you decide to incorporate the TensorProjection Layer into your model, we suggest placing it after the final convolutional layer for optimal performance.
 
-## What does a TensorProjection Layer do?
+## What is the TensorProjection Layer?
 
-We assuem that a TensorProjection Layer is installed after a 2D convolutional layer.
+The TensorProjection Layer is typically installed after a 2D convolutional layer. 
+The output of a 2D convolutional layer consists of `n` 3D tensors, each shaped as [n, p1, p2, p3], where `n` is the number of observations (i.e., the minibatch size).
 
-The output of a 2D convolutional layer is n 3D tensors with the shape of [n,p1,p2,p3] where n is the number of observations or the minibatch size.
+The TensorProjection Layer transforms the input tensor from a shape of [n, p1, p2, p3] to [n, q1, q2, q3], where each `qk` is less than or equal to `pk` (for k=1, 2, 3).
 
-A TensorProjection Layer transforms the input with the shape of [n,p1,p2,p3] into data with the shape of [n,q1,q2,q3] where qk is less than or equal to pk (k=1,2,3).
-
-This transformation is done by employing tensor mode product to each 3D tensor (i=1,2,...,n). The TensorProjection Layer multiplies (trancated) orthogonal matrices with the size of [qk,pk] (k=1,2,3) to each 3D tensor (i=1,..,n).
+This transformation is achieved by performing a tensor mode product on each 3D tensor (i=1,2,...,n). The TensorProjection Layer multiplies truncated orthogonal matrices of size [qk, pk] (for k=1, 2, 3) with each tensor.
 
 ## Paper
 
+For further details, please refer to our paper:  
 [https://arxiv.org/abs/2004.04454](https://arxiv.org/abs/2004.04454)
-
-## Our Related Method
-
-We also have a matrix version of Projection Layer. We will upload it in the near future.
