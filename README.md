@@ -1,9 +1,13 @@
-# TensorProjection Layer 
+# TensorProjection Layer (TPL)
 
-Thank you for visiting my page :)
+A tensor-based **dimensionality reduction** layer for deep neural networks.  
+Proposed by **Toshinari Morimoto** and **Su-Yun Huang**. Implemented as a custom hidden layer for TensorFlow / Keras.
 
-The TensorProjection Layer is a dimensionality reduction layer proposed by Toshinari Morimoto and Su-Yun Huang. 
-We have implemented our method as a custom hidden layer in TensorFlow.
+- **Paper (journal)**: Neurocomputing, 2025 (Elsevier)  
+- **Preprint**: arXiv:2004.04454  
+- **Keywords**: tensor projection, multilinear projection, pooling alternative, channel reduction
+
+
 
 You can integrate a TensorProjection Layer into a Deep Neural Network defined using TensorFlow Keras. 
 To get started, we recommend installing Python, TensorFlow, and Jupyter Notebook.
