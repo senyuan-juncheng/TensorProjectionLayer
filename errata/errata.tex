@@ -1,6 +1,7 @@
 \documentclass[10pt]{article}
-\usepackage{amsmath,amssymb,bm}
+\usepackage{amsmath,amssymb,bm,color}
 \usepackage[a4paper,margin=1.2in]{geometry}
+\usepackage{indentfirst}
 \usepackage{setspace}
 \linespread{1.3}
 
@@ -16,14 +17,17 @@
 
 The authors found that in the published paper, the derivative
 \[
-\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)}
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)}, ~{\rm where}~ G_k = M_k^{-1/2},
 \]
-was not correct.
-We hereby provide the corrected expression below.
+was not correct. 
+The corrected expression is given by~\eqref{corrected}. 
+This correction does \textbf{not} affect the numerical results,
+since all experiments used automatic differentiation
+and did not rely on the analytical backpropagation formula.
+
 
 Let
 \[
-G_k = M_k^{-1/2}, \qquad 
 H_k = M_k^{1/2} \quad \Rightarrow \quad G_k = H_k^{-1},
 \]
 where each $G_k, H_k, M_k \in \mathbb{R}^{q_k \times q_k}$ and $M_k$ is symmetric positive definite.
@@ -100,14 +104,14 @@ Combining (1) and (2),
 \end{align*}
 
 Substituting $H_k = M_k^{1/2}$ gives the corrected result:
-\[
+\begin{equation}\label{corrected}
 \boxed{
 \displaystyle
 \frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
 = - (M_k^{-1/2} \otimes M_k^{-1/2})
 \bigl(I_{q_k} \otimes M_k^{1/2} + M_k^{1/2} \otimes I_{q_k}\bigr)^{-1}.
 }
-\]
+\end{equation}
 
 ---
 
