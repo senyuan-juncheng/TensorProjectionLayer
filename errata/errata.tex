@@ -1,0 +1,124 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath,amssymb,bm}
+\usepackage[a4paper,margin=1.2in]{geometry}
+\usepackage{setspace}
+\linespread{1.3}
+
+\title{\textbf{Author Correction for}\\[3pt]
+\emph{TensorProjection Layer: A Tensor-Based Dimension Reduction Method in Deep Neural Networks}}
+\author{Toshinari Morimoto \and Su-Yun Huang}
+\date{October 2025}
+
+\begin{document}
+\maketitle
+
+\section*{Correction for Equation (11)}
+
+The authors found that in the published paper, the derivative
+\[
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)}
+\]
+was not correct.
+We hereby provide the corrected expression below.
+
+Let
+\[
+G_k = M_k^{-1/2}, \qquad 
+H_k = M_k^{1/2} \quad \Rightarrow \quad G_k = H_k^{-1},
+\]
+where each $G_k, H_k, M_k \in \mathbb{R}^{q_k \times q_k}$ and $M_k$ is symmetric positive definite.
+
+We aim to find the Jacobian via the chain rule:
+\[
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
+=
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(H_k)^{\!\top}}
+\frac{\partial\,\mathrm{vec}(H_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}.
+\]
+
+---
+
+\subsection*{Step 1: Relation between $\bm{G_k}$ and $\bm{H_k}$}
+
+From $G_k H_k = I_{q_k}$, we have
+\[
+G_k(\Delta H_k) + (\Delta G_k)H_k = O.
+\]
+Then
+\[
+\Delta G_k = -\,G_k (\Delta H_k) H_k^{-1} = -\,G_k (\Delta H_k) G_k.
+\]
+Vectorizing both sides gives
+\[
+\mathrm{vec}(\Delta G_k)
+= - (H_k^\top \otimes G_k)\,\mathrm{vec}(\Delta H_k),
+\]
+so that
+\[
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(H_k)^{\!\top}}
+= - (H_k^\top \otimes G_k)
+= - (H_k^{-1} \otimes H_k^{-1})
+= - (M_k^{-1/2} \otimes M_k^{-1/2}).
+\tag{1}
+\]
+
+---
+
+\subsection*{Step 2: Relation between $\bm{H_k}$ and $\bm{M_k}$}
+
+Since $H_k^2 = M_k$, we have
+\[
+\Delta M_k = H_k (\Delta H_k) + (\Delta H_k) H_k.
+\]
+Using the identity $\mathrm{vec}(A X B) = (B^\top \otimes A)\,\mathrm{vec}(X)$,
+\begin{align*}
+\mathrm{vec}(\Delta M_k)
+&= (I_{q_k} \otimes H_k)\,\mathrm{vec}(\Delta H_k)
+  + (H_k \otimes I_{q_k})\,\mathrm{vec}(\Delta H_k) \\[1mm]
+&= \bigl(I_{q_k} \otimes H_k + H_k \otimes I_{q_k}\bigr)\,\mathrm{vec}(\Delta H_k).
+\end{align*}
+Hence,
+\[
+\frac{\partial\,\mathrm{vec}(H_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
+= \bigl(I_{q_k} \otimes H_k + H_k \otimes I_{q_k}\bigr)^{-1}.
+\tag{2}
+\]
+
+---
+
+\subsection*{Step 3: Chain rule}
+
+Combining (1) and (2),
+\begin{align*}
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
+&=
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(H_k)^{\!\top}}
+\frac{\partial\,\mathrm{vec}(H_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}} \\[1mm]
+&=
+- (H_k^{-1} \otimes H_k^{-1})
+\bigl(I_{q_k} \otimes H_k + H_k \otimes I_{q_k}\bigr)^{-1}.
+\end{align*}
+
+Substituting $H_k = M_k^{1/2}$ gives the corrected result:
+\[
+\boxed{
+\displaystyle
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
+= - (M_k^{-1/2} \otimes M_k^{-1/2})
+\bigl(I_{q_k} \otimes M_k^{1/2} + M_k^{1/2} \otimes I_{q_k}\bigr)^{-1}.
+}
+\]
+
+---
+
+\subsection*{Invertibility remark}
+
+The matrix 
+\[
+I_{q_k} \otimes M_k^{1/2} + M_k^{1/2} \otimes I_{q_k}
+\]
+is invertible if and only if $M_k$ is positive definite,
+since its eigenvalues are $\{\sqrt{\lambda_i}+\sqrt{\lambda_j}\}_{i,j}$,
+where $\lambda_i$ are the eigenvalues of $M_k$.
+
+\end{document}
