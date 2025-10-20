@@ -1,36 +1,23 @@
 # TensorProjection Layer (TPL)
 
 A tensor-based **dimensionality reduction** layer for deep neural networks.  
-Proposed by **Toshinari Morimoto** and **Su-Yun Huang**. Implemented as a custom hidden layer for TensorFlow / Keras.
+Proposed by **Toshinari Morimoto** and **Su-Yun Huang**. Implemented as a custom hidden layer for TensorFlow.
 
-- **Paper (journal)**: Neurocomputing, 2025 (Elsevier)  
+- **Paper (journal)**: Neurocomputing, 2025 (Elsevier) [https://www.sciencedirect.com/science/article/abs/pii/S0925231225023677]
 - **Preprint**: arXiv:2004.04454  
-- **Keywords**: tensor projection, multilinear projection, pooling alternative, channel reduction
 
+## How to use?
 
+The **TensorProjection Layer (TPL)** is typically placed after a 2D convolutional layer.  
+The output of a 2D convolutional layer consists of `n` three-dimensional tensors, each of shape `[n, p1, p2, p3]`, where `n` denotes the number of observations (i.e., the minibatch size).
 
-You can integrate a TensorProjection Layer into a Deep Neural Network defined using TensorFlow Keras. 
-To get started, we recommend installing Python, TensorFlow, and Jupyter Notebook.
-You can then run the provided code (.ipynb file) using Jupyter Notebook.
-
-## TensorFlow Version Requirements
-
-Please avoid using very old versions of TensorFlow. The TensorProjection Layer requires the computation of the square root of a positive semi-definite matrix (`sqrtm`), which is not available in older versions of TensorFlow. Ensure that your version supports this function.
-
-## Practical Advice
+The TPL transforms each input tensor from shape `[n, p1, p2, p3]` to `[n, q1, q2, q3]`,  where each `qk` is less than or equal to the corresponding `pk` for `k = 1, 2, 3`.
 
 If you decide to incorporate the TensorProjection Layer into your model, we suggest placing it after the final convolutional layer for optimal performance.
 
-## What is the TensorProjection Layer?
+## Errata (Author Correction)
 
-The TensorProjection Layer is typically installed after a 2D convolutional layer. 
-The output of a 2D convolutional layer consists of `n` 3D tensors, each shaped as [n, p1, p2, p3], where `n` is the number of observations (i.e., the minibatch size).
+We have identified errors in the **backpropagation equation** in the published version of the paper.  
+These errors **do not affect any of the numerical results or conclusions** presented in the paper.
 
-The TensorProjection Layer transforms the input tensor from a shape of [n, p1, p2, p3] to [n, q1, q2, q3], where each `qk` is less than or equal to `pk` (for k=1, 2, 3).
-
-This transformation is achieved by performing a tensor mode product on each 3D tensor (i=1,2,...,n). The TensorProjection Layer multiplies truncated orthogonal matrices of size [qk, pk] (for k=1, 2, 3) with each tensor.
-
-## Paper
-
-For further details, please refer to our paper:  
-[https://arxiv.org/abs/2004.04454](https://arxiv.org/abs/2004.04454)
+For details, please see the [Errata and Supplementary Notes](./ERRATA.md).
