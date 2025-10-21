@@ -1,5 +1,5 @@
 \documentclass[10pt]{article}
-\usepackage{amsmath,amssymb,bm,color}
+\usepackage{amsmath,amssymb,bm,color, amsthm}
 \usepackage[a4paper,margin=1.2in]{geometry}
 \usepackage{indentfirst}
 \usepackage{setspace}
@@ -20,18 +20,23 @@ The authors found that in the published paper, the derivative
 \frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)}, ~{\rm where}~ G_k = M_k^{-1/2},
 \]
 was not correct. 
-The corrected expression is given by~\eqref{corrected}. 
+The corrected expression is given by
+\[
+\boxed{
+\displaystyle
+\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
+= - (M_k^{-1/2} \otimes M_k^{-1/2})
+\bigl(I_{q_k} \otimes M_k^{1/2} + M_k^{1/2} \otimes I_{q_k}\bigr)^{-1}.
+}
+\tag{1}
+\]
 This correction does \textbf{not} affect the numerical results,
 since all experiments used automatic differentiation
 and did not rely on the analytical backpropagation formula.
 
-
-Let
-\[
-H_k = M_k^{1/2} \quad \Rightarrow \quad G_k = H_k^{-1},
-\]
-where each $G_k, H_k, M_k \in \mathbb{R}^{q_k \times q_k}$ and $M_k$ is symmetric positive definite.
-
+\begin{proof}
+Let $H_k = M_k^{1/2}$,
+where each $G_k, H_k, M_k \in \mathbb{R}^{q_k \times q_k}$ and $M_k$ is symmetric strictly positive definite.
 We aim to find the Jacobian via the chain rule:
 \[
 \frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
@@ -40,15 +45,13 @@ We aim to find the Jacobian via the chain rule:
 \frac{\partial\,\mathrm{vec}(H_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}.
 \]
 
----
-
-\subsection*{Step 1: Relation between $\bm{G_k}$ and $\bm{H_k}$}
-
+\noindent
+{\bf Step 1: Relation between $\bm{G_k}$ and $\bm{H_k}$.}
 From $G_k H_k = I_{q_k}$, we have
 \[
-G_k(\Delta H_k) + (\Delta G_k)H_k = O.
+G_k(\Delta H_k) + (\Delta G_k)H_k = O, 
 \]
-Then
+where $O$ is the zero matrix and $\Delta$ denotes the differential. Then
 \[
 \Delta G_k = -\,G_k (\Delta H_k) H_k^{-1} = -\,G_k (\Delta H_k) G_k.
 \]
@@ -63,13 +66,11 @@ so that
 = - (H_k^\top \otimes G_k)
 = - (H_k^{-1} \otimes H_k^{-1})
 = - (M_k^{-1/2} \otimes M_k^{-1/2}).
-\tag{1}
+\tag{2}
 \]
 
----
-
-\subsection*{Step 2: Relation between $\bm{H_k}$ and $\bm{M_k}$}
-
+\noindent
+{\bf Step 2: Relation between $\bm{H_k}$ and $\bm{M_k}$.}
 Since $H_k^2 = M_k$, we have
 \[
 \Delta M_k = H_k (\Delta H_k) + (\Delta H_k) H_k.
@@ -85,14 +86,12 @@ Hence,
 \[
 \frac{\partial\,\mathrm{vec}(H_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
 = \bigl(I_{q_k} \otimes H_k + H_k \otimes I_{q_k}\bigr)^{-1}.
-\tag{2}
+\tag{3}
 \]
 
----
 
-\subsection*{Step 3: Chain rule}
-
-Combining (1) and (2),
+\noindent{\bf Step 3: Chain rule.}
+Combining (2) and (3),
 \begin{align*}
 \frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
 &=
@@ -102,26 +101,15 @@ Combining (1) and (2),
 - (H_k^{-1} \otimes H_k^{-1})
 \bigl(I_{q_k} \otimes H_k + H_k \otimes I_{q_k}\bigr)^{-1}.
 \end{align*}
+\end{proof}
 
-Substituting $H_k = M_k^{1/2}$ gives the corrected result:
-\begin{equation}\label{corrected}
-\boxed{
-\displaystyle
-\frac{\partial\,\mathrm{vec}(G_k)}{\partial\,\mathrm{vec}(M_k)^{\!\top}}
-= - (M_k^{-1/2} \otimes M_k^{-1/2})
-\bigl(I_{q_k} \otimes M_k^{1/2} + M_k^{1/2} \otimes I_{q_k}\bigr)^{-1}.
-}
-\end{equation}
-
----
-
-\subsection*{Invertibility remark}
-
+\noindent
+{\bf Invertibility Remark.}
 The matrix 
 \[
 I_{q_k} \otimes M_k^{1/2} + M_k^{1/2} \otimes I_{q_k}
 \]
-is invertible if and only if $M_k$ is positive definite,
+is invertible if and only if $M_k$ is strictly positive definite,
 since its eigenvalues are $\{\sqrt{\lambda_i}+\sqrt{\lambda_j}\}_{i,j}$,
 where $\lambda_i$ are the eigenvalues of $M_k$.
 
